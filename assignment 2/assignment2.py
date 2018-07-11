@@ -56,8 +56,6 @@ X, Y = load_planar_dataset()
 # 
 # **Hint**: How do you get the shape of a numpy array? [(help)](https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.shape.html)
 
-# In[ ]:
-
 ### START CODE HERE ### (≈ 3 lines of code)
 shape_X = X.shape
 shape_Y = Y.shape
@@ -95,7 +93,6 @@ print ('I have m = %d training examples!' % (m))
 # **Hint**: Use shapes of X and Y to find n_x and n_y. Also, hard code the hidden layer size to be 4.
 
 # GRADED FUNCTION: layer_sizes
-
 def layer_sizes(X, Y):
     """
     Arguments:
@@ -132,7 +129,6 @@ print("The size of the output layer is: n_y = " + str(n_y))
 #     - Use: `np.zeros((a,b))` to initialize a matrix of shape (a,b) with zeros.
 
 # GRADED FUNCTION: initialize_parameters
-
 def initialize_parameters(n_x, n_h, n_y):
     """
     Argument:
@@ -194,7 +190,6 @@ print("b2 = " + str(parameters["b2"]))
 #   to the backpropagation function.
 
 # GRADED FUNCTION: forward_propagation
-
 def forward_propagation(X, parameters):
     """
     Argument:
@@ -230,9 +225,6 @@ def forward_propagation(X, parameters):
     
     return A2, cache
 
-
-# In[ ]:
-
 X_assess, parameters = forward_propagation_test_case()
 A2, cache = forward_propagation(X_assess, parameters)
 
@@ -241,7 +233,6 @@ print(np.mean(cache['Z1']) ,np.mean(cache['A1']),np.mean(cache['Z2']),np.mean(ca
 
 
 # GRADED FUNCTION: compute_cost
-
 def compute_cost(A2, Y, parameters):
     """
     Computes the cross-entropy cost given in equation (13)
@@ -269,62 +260,21 @@ def compute_cost(A2, Y, parameters):
     
     return cost
 
-
-# In[ ]:
-
 A2, Y_assess, parameters = compute_cost_test_case()
 
 print("cost = " + str(compute_cost(A2, Y_assess, parameters)))
-
-
-# **Expected Output**:
-# <table style="width:20%">
-#   <tr>
-#     <td>**cost**</td>
-#     <td> 0.693058761... </td> 
-#   </tr>
-#   
-# </table>
 
 # Using the cache computed during forward propagation, you can now implement backward propagation.
 # 
 # **Question**: Implement the function `backward_propagation()`.
 # 
 # **Instructions**:
-# Backpropagation is usually the hardest (most mathematical) part in deep learning. To help you, here again is the slide from the lecture on backpropagation. You'll want to use the six equations on the right of this slide, since you are building a vectorized implementation.  
-# 
-# <img src="images/grad_summary.png" style="width:600px;height:300px;">
-# 
-# <!--
-# $\frac{\partial \mathcal{J} }{ \partial z_{2}^{(i)} } = \frac{1}{m} (a^{[2](i)} - y^{(i)})$
-# 
-# $\frac{\partial \mathcal{J} }{ \partial W_2 } = \frac{\partial \mathcal{J} }{ \partial z_{2}^{(i)} } a^{[1] (i) T} $
-# 
-# $\frac{\partial \mathcal{J} }{ \partial b_2 } = \sum_i{\frac{\partial \mathcal{J} }{ \partial z_{2}^{(i)}}}$
-# 
-# $\frac{\partial \mathcal{J} }{ \partial z_{1}^{(i)} } =  W_2^T \frac{\partial \mathcal{J} }{ \partial z_{2}^{(i)} } * ( 1 - a^{[1] (i) 2}) $
-# 
-# $\frac{\partial \mathcal{J} }{ \partial W_1 } = \frac{\partial \mathcal{J} }{ \partial z_{1}^{(i)} }  X^T $
-# 
-# $\frac{\partial \mathcal{J} _i }{ \partial b_1 } = \sum_i{\frac{\partial \mathcal{J} }{ \partial z_{1}^{(i)}}}$
-# 
-# - Note that $*$ denotes elementwise multiplication.
-# - The notation you will use is common in deep learning coding:
-#     - dW1 = $\frac{\partial \mathcal{J} }{ \partial W_1 }$
-#     - db1 = $\frac{\partial \mathcal{J} }{ \partial b_1 }$
-#     - dW2 = $\frac{\partial \mathcal{J} }{ \partial W_2 }$
-#     - db2 = $\frac{\partial \mathcal{J} }{ \partial b_2 }$
-#     
-# !-->
-# 
-# - Tips:
-#     - To compute dZ1 you'll need to compute $g^{[1]'}(Z^{[1]})$. Since $g^{[1]}(.)$ is the tanh activation function, if $a = g^{[1]}(z)$ then $g^{[1]'}(z) = 1-a^2$. So you can compute 
-#     $g^{[1]'}(Z^{[1]})$ using `(1 - np.power(A1, 2))`.
-
-# In[ ]:
+# Backpropagation is usually the hardest (most mathematical) part in deep learning. 
+# To help you, here again is the slide from the lecture on backpropagation. 
+# You'll want to use the six equations on the right of this slide, 
+# since you are building a vectorized implementation.  
 
 # GRADED FUNCTION: backward_propagation
-
 def backward_propagation(parameters, cache, X, Y):
     """
     Implement the backward propagation using the instructions above.
@@ -342,24 +292,24 @@ def backward_propagation(parameters, cache, X, Y):
     
     # First, retrieve W1 and W2 from the dictionary "parameters".
     ### START CODE HERE ### (≈ 2 lines of code)
-    W1 = None
-    W2 = None
+    W1 = parameters["W1"]
+    W2 = parameters["W2"]
     ### END CODE HERE ###
         
     # Retrieve also A1 and A2 from dictionary "cache".
     ### START CODE HERE ### (≈ 2 lines of code)
-    A1 = None
-    A2 = None
+    A1 = cache["A1"]
+    A2 = cache["A2"]
     ### END CODE HERE ###
-    
+      
     # Backward propagation: calculate dW1, db1, dW2, db2. 
     ### START CODE HERE ### (≈ 6 lines of code, corresponding to 6 equations on slide above)
-    dZ2 = None
-    dW2 = None
-    db2 = None
-    dZ1 = None
-    dW1 = None
-    db1 = None
+    dZ2 = A2 - Y
+    dW2 = (1/m) * np.dot(dZ2, A1.T)
+    db2 = (1/m) * np.sum(dZ2, axis=1, keepdims=True)
+    dZ1 = np.dot(W2.T,dZ2) * (1 - np.power(A1, 2))
+    dW1 = (1/m) * np.dot(dZ1, X.T)
+    db1 = (1/m) * np.sum(dZ1, axis=1, keepdims=True)
     ### END CODE HERE ###
     
     grads = {"dW1": dW1,
@@ -369,9 +319,6 @@ def backward_propagation(parameters, cache, X, Y):
     
     return grads
 
-
-# In[ ]:
-
 parameters, cache, X_assess, Y_assess = backward_propagation_test_case()
 
 grads = backward_propagation(parameters, cache, X_assess, Y_assess)
@@ -380,55 +327,7 @@ print ("db1 = "+ str(grads["db1"]))
 print ("dW2 = "+ str(grads["dW2"]))
 print ("db2 = "+ str(grads["db2"]))
 
-
-# **Expected output**:
-# 
-# 
-# 
-# <table style="width:80%">
-#   <tr>
-#     <td>**dW1**</td>
-#     <td> [[ 0.00301023 -0.00747267]
-#  [ 0.00257968 -0.00641288]
-#  [-0.00156892  0.003893  ]
-#  [-0.00652037  0.01618243]] </td> 
-#   </tr>
-#   
-#   <tr>
-#     <td>**db1**</td>
-#     <td>  [[ 0.00176201]
-#  [ 0.00150995]
-#  [-0.00091736]
-#  [-0.00381422]] </td> 
-#   </tr>
-#   
-#   <tr>
-#     <td>**dW2**</td>
-#     <td> [[ 0.00078841  0.01765429 -0.00084166 -0.01022527]] </td> 
-#   </tr>
-#   
-# 
-#   <tr>
-#     <td>**db2**</td>
-#     <td> [[-0.16655712]] </td> 
-#   </tr>
-#   
-# </table>  
-
-# **Question**: Implement the update rule. Use gradient descent. You have to use (dW1, db1, dW2, db2) in order to update (W1, b1, W2, b2).
-# 
-# **General gradient descent rule**: $ \theta = \theta - \alpha \frac{\partial J }{ \partial \theta }$ where $\alpha$ is the learning rate and $\theta$ represents a parameter.
-# 
-# **Illustration**: The gradient descent algorithm with a good learning rate (converging) and a bad learning rate (diverging). Images courtesy of Adam Harley.
-# 
-# <img src="images/sgd.gif" style="width:400;height:400;"> <img src="images/sgd_bad.gif" style="width:400;height:400;">
-# 
-# 
-
-# In[ ]:
-
 # GRADED FUNCTION: update_parameters
-
 def update_parameters(parameters, grads, learning_rate = 1.2):
     """
     Updates parameters using the gradient descent update rule given above
@@ -442,26 +341,26 @@ def update_parameters(parameters, grads, learning_rate = 1.2):
     """
     # Retrieve each parameter from the dictionary "parameters"
     ### START CODE HERE ### (≈ 4 lines of code)
-    W1 = None
-    b1 = None
-    W2 = None
-    b2 = None
+    W1 = parameters["W1"]
+    b1 = parameters["b1"]
+    W2 = parameters["W2"]
+    b2 = parameters["b2"]
     ### END CODE HERE ###
     
     # Retrieve each gradient from the dictionary "grads"
     ### START CODE HERE ### (≈ 4 lines of code)
-    dW1 = None
-    db1 = None
-    dW2 = None
-    db2 = None
+    dW1 = grads["dW1"]
+    db1 = grads["db1"]
+    dW2 = grads["dW2"]
+    db2 = grads["db2"]
     ## END CODE HERE ###
     
     # Update rule for each parameter
     ### START CODE HERE ### (≈ 4 lines of code)
-    W1 = None
-    b1 = None
-    W2 = None
-    b2 = None
+    W1 = W1 - learning_rate * dW1
+    b1 = b1 - learning_rate * db1
+    W2 = W2 - learning_rate * dW2
+    b2 = b2 - learning_rate * db2
     ### END CODE HERE ###
     
     parameters = {"W1": W1,
@@ -471,9 +370,6 @@ def update_parameters(parameters, grads, learning_rate = 1.2):
     
     return parameters
 
-
-# In[ ]:
-
 parameters, grads = update_parameters_test_case()
 parameters = update_parameters(parameters, grads)
 
@@ -482,50 +378,13 @@ print("b1 = " + str(parameters["b1"]))
 print("W2 = " + str(parameters["W2"]))
 print("b2 = " + str(parameters["b2"]))
 
-
-# **Expected Output**:
-# 
-# 
-# <table style="width:80%">
-#   <tr>
-#     <td>**W1**</td>
-#     <td> [[-0.00643025  0.01936718]
-#  [-0.02410458  0.03978052]
-#  [-0.01653973 -0.02096177]
-#  [ 0.01046864 -0.05990141]]</td> 
-#   </tr>
-#   
-#   <tr>
-#     <td>**b1**</td>
-#     <td> [[ -1.02420756e-06]
-#  [  1.27373948e-05]
-#  [  8.32996807e-07]
-#  [ -3.20136836e-06]]</td> 
-#   </tr>
-#   
-#   <tr>
-#     <td>**W2**</td>
-#     <td> [[-0.01041081 -0.04463285  0.01758031  0.04747113]] </td> 
-#   </tr>
-#   
-# 
-#   <tr>
-#     <td>**b2**</td>
-#     <td> [[ 0.00010457]] </td> 
-#   </tr>
-#   
-# </table>  
-
 # ### 4.4 - Integrate parts 4.1, 4.2 and 4.3 in nn_model() ####
 # 
 # **Question**: Build your neural network model in `nn_model()`.
 # 
 # **Instructions**: The neural network model has to use the previous functions in the right order.
 
-# In[ ]:
-
 # GRADED FUNCTION: nn_model
-
 def nn_model(X, Y, n_h, num_iterations = 10000, print_cost=False):
     """
     Arguments:
@@ -545,29 +404,28 @@ def nn_model(X, Y, n_h, num_iterations = 10000, print_cost=False):
     
     # Initialize parameters, then retrieve W1, b1, W2, b2. Inputs: "n_x, n_h, n_y". Outputs = "W1, b1, W2, b2, parameters".
     ### START CODE HERE ### (≈ 5 lines of code)
-    parameters = None
-    W1 = None
-    b1 = None
-    W2 = None
-    b2 = None
+    parameters = initialize_parameters(n_x, n_h, n_y)
+    W1 = parameters["W1"]
+    b1 = parameters["b1"]
+    W2 = parameters["W2"]
+    b2 = parameters["b2"]
     ### END CODE HERE ###
     
     # Loop (gradient descent)
-
     for i in range(0, num_iterations):
          
         ### START CODE HERE ### (≈ 4 lines of code)
         # Forward propagation. Inputs: "X, parameters". Outputs: "A2, cache".
-        A2, cache = None
+        A2, cache = forward_propagation(X, parameters)
         
         # Cost function. Inputs: "A2, Y, parameters". Outputs: "cost".
-        cost = None
+        cost = compute_cost(A2, Y, parameters)
  
         # Backpropagation. Inputs: "parameters, cache, X, Y". Outputs: "grads".
-        grads = None
+        grads = backward_propagation(parameters, cache, X, Y)
  
         # Gradient descent parameter update. Inputs: "parameters, grads". Outputs: "parameters".
-        parameters = None
+        parameters = update_parameters(parameters, grads)
         
         ### END CODE HERE ###
         
@@ -577,9 +435,6 @@ def nn_model(X, Y, n_h, num_iterations = 10000, print_cost=False):
 
     return parameters
 
-
-# In[ ]:
-
 X_assess, Y_assess = nn_model_test_case()
 parameters = nn_model(X_assess, Y_assess, 4, num_iterations=10000, print_cost=True)
 print("W1 = " + str(parameters["W1"]))
@@ -587,74 +442,12 @@ print("b1 = " + str(parameters["b1"]))
 print("W2 = " + str(parameters["W2"]))
 print("b2 = " + str(parameters["b2"]))
 
-
-# **Expected Output**:
-# 
-# <table style="width:90%">
-# 
-# <tr> 
-#     <td> 
-#         **cost after iteration 0**
-#     </td>
-#     <td> 
-#         0.692739
-#     </td>
-# </tr>
-# 
-# <tr> 
-#     <td> 
-#         <center> $\vdots$ </center>
-#     </td>
-#     <td> 
-#         <center> $\vdots$ </center>
-#     </td>
-# </tr>
-# 
-#   <tr>
-#     <td>**W1**</td>
-#     <td> [[-0.65848169  1.21866811]
-#  [-0.76204273  1.39377573]
-#  [ 0.5792005  -1.10397703]
-#  [ 0.76773391 -1.41477129]]</td> 
-#   </tr>
-#   
-#   <tr>
-#     <td>**b1**</td>
-#     <td> [[ 0.287592  ]
-#  [ 0.3511264 ]
-#  [-0.2431246 ]
-#  [-0.35772805]] </td> 
-#   </tr>
-#   
-#   <tr>
-#     <td>**W2**</td>
-#     <td> [[-2.45566237 -3.27042274  2.00784958  3.36773273]] </td> 
-#   </tr>
-#   
-# 
-#   <tr>
-#     <td>**b2**</td>
-#     <td> [[ 0.20459656]] </td> 
-#   </tr>
-#   
-# </table>  
-
 # ### 4.5 Predictions
 # 
-# **Question**: Use your model to predict by building predict().
-# Use forward propagation to predict results.
-# 
-# **Reminder**: predictions = $y_{prediction} = \mathbb 1 \text{{activation > 0.5}} = \begin{cases}
-#       1 & \text{if}\ activation > 0.5 \\
-#       0 & \text{otherwise}
-#     \end{cases}$  
-#     
-# As an example, if you would like to set the entries of a matrix X to 0 and 1 based on a threshold you would do: ```X_new = (X > threshold)```
-
-# In[ ]:
+# As an example, if you would like to set the entries of a matrix X to 0 and 1 based 
+#on a threshold you would do: ```X_new = (X > threshold)```
 
 # GRADED FUNCTION: predict
-
 def predict(parameters, X):
     """
     Using the learned parameters, predicts a class for each example in X
@@ -669,35 +462,16 @@ def predict(parameters, X):
     
     # Computes probabilities using forward propagation, and classifies to 0/1 using 0.5 as the threshold.
     ### START CODE HERE ### (≈ 2 lines of code)
-    A2, cache = None
-    predictions = None
+    A2, cache = forward_propagation(X, parameters)
+    predictions = (A2 > 0.5)
     ### END CODE HERE ###
     
     return predictions
-
-
-# In[ ]:
 
 parameters, X_assess = predict_test_case()
 
 predictions = predict(parameters, X_assess)
 print("predictions mean = " + str(np.mean(predictions)))
-
-
-# **Expected Output**: 
-# 
-# 
-# <table style="width:40%">
-#   <tr>
-#     <td>**predictions mean**</td>
-#     <td> 0.666666666667 </td> 
-#   </tr>
-#   
-# </table>
-
-# It is time to run the model and see how it performs on a planar dataset. Run the following code to test your model with a single hidden layer of $n_h$ hidden units.
-
-# In[ ]:
 
 # Build a model with a n_h-dimensional hidden layer
 parameters = nn_model(X, Y, n_h = 4, num_iterations = 10000, print_cost=True)
@@ -706,33 +480,9 @@ parameters = nn_model(X, Y, n_h = 4, num_iterations = 10000, print_cost=True)
 plot_decision_boundary(lambda x: predict(parameters, x.T), X, Y)
 plt.title("Decision Boundary for hidden layer size " + str(4))
 
-
-# **Expected Output**:
-# 
-# <table style="width:40%">
-#   <tr>
-#     <td>**Cost after iteration 9000**</td>
-#     <td> 0.218607 </td> 
-#   </tr>
-#   
-# </table>
-# 
-
-# In[ ]:
-
 # Print accuracy
 predictions = predict(parameters, X)
 print ('Accuracy: %d' % float((np.dot(Y,predictions.T) + np.dot(1-Y,1-predictions.T))/float(Y.size)*100) + '%')
-
-
-# **Expected Output**: 
-# 
-# <table style="width:15%">
-#   <tr>
-#     <td>**Accuracy**</td>
-#     <td> 90% </td> 
-#   </tr>
-# </table>
 
 # Accuracy is really high compared to Logistic Regression. The model has learnt the leaf patterns of the flower! Neural networks are able to learn even highly non-linear decision boundaries, unlike logistic regression. 
 # 
@@ -741,8 +491,6 @@ print ('Accuracy: %d' % float((np.dot(Y,predictions.T) + np.dot(1-Y,1-prediction
 # ### 4.6 - Tuning hidden layer size (optional/ungraded exercise) ###
 # 
 # Run the following code. It may take 1-2 minutes. You will observe different behaviors of the model for various hidden layer sizes.
-
-# In[ ]:
 
 # This may take about 2 minutes to run
 
@@ -784,8 +532,6 @@ for i, n_h in enumerate(hidden_layer_sizes):
 # ## 5) Performance on other datasets
 
 # If you want, you can rerun the whole notebook (minus the dataset part) for each of the following datasets.
-
-# In[ ]:
 
 # Datasets
 noisy_circles, noisy_moons, blobs, gaussian_quantiles, no_structure = load_extra_datasets()
