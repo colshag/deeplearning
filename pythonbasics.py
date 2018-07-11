@@ -86,6 +86,43 @@ def softmax(x):
     
     return s
 
+def L1(yhat, y):
+    """
+    Arguments:
+    yhat -- vector of size m (predicted labels)
+    y -- vector of size m (true labels)
+    
+    Returns:
+    loss -- the value of the L1 loss function defined above
+    """
+    
+    loss = np.sum(abs(y - yhat))
+    
+    return loss
+
+
+yhat = np.array([.9, 0.2, 0.1, .4, .9])
+y = np.array([1, 0, 0, 1, 1])
+print("L1 = " + str(L1(yhat,y)))
+
+def L2(yhat, y):
+    """
+    Arguments:
+    yhat -- vector of size m (predicted labels)
+    y -- vector of size m (true labels)
+    
+    Returns:
+    loss -- the value of the L2 loss function defined above
+    """
+    
+    loss = np.dot((y - yhat),(y - yhat))
+    
+    return loss
+
+yhat = np.array([.9, 0.2, 0.1, .4, .9])
+y = np.array([1, 0, 0, 1, 1])
+print("L2 = " + str(L2(yhat,y)))
+
 # This is a 3 by 3 by 2 array, typically images will be (num_px_x, num_px_y,3) where 3 represents the RGB values
 image = np.array([[[ 0.67826139,  0.29380381],
                    [ 0.90714982,  0.52835647],
